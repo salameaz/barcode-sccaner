@@ -374,7 +374,7 @@
                 scannedCodes.forEach((item, index) => {
                     const listItem = document.createElement('div');
                     listItem.className = 'list-item';
-                    const priceText = item.price ? ` ($${parseFloat(item.price).toFixed(2)})` : '';
+                    const priceText = item.price ? ` (${parseFloat(item.price).toFixed(2)})` : '';
                     const timestampText = item.timestamp ? ` - ${item.timestamp}` : '';
                     // Add the scanned code, price, timestamp and a delete button for each item
                     listItem.innerHTML = `
@@ -554,7 +554,7 @@
             }
             // Format each item as "Code: [code], Price: [price], Timestamp: [timestamp]"
             const textToCopy = scannedCodes.map(item => {
-                const pricePart = item.price ? `, Price: $${parseFloat(item.price).toFixed(2)}` : ', Price: N/A';
+                const pricePart = item.price ? `, Price: ${parseFloat(item.price).toFixed(2)}` : ', Price: N/A';
                 const timestampPart = item.timestamp ? `, Scanned: ${item.timestamp}` : '';
                 return `Code: ${item.code}${pricePart}${timestampPart}`;
             }).join('\n');
