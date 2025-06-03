@@ -715,27 +715,19 @@
                 showMessageBox('noCodesToCopy');
                 return;
             }
-            
+
             const textToCopy = scannedCodes.map(item => {
                 const pricePart = item.price ? `, Price: ${parseFloat(item.price).toFixed(2)}` : ', Price: N/A';
                 const timestampPart = item.timestamp ? `, Scanned: ${item.timestamp}` : '';
                 return `Code: ${item.code}${pricePart}${timestampPart}`;
             }).join('\n');
 
-            
-            const textArea = document.createElement("textarea");
-            textArea.value = textToCopy;
-            document.body.appendChild(textArea);
-            textArea.select(); 
-            try {
-                
-                document.execCommand('copy');
+            navigator.clipboard.writeText(textToCopy).then(() => {
                 showMessageBox('codesCopied');
-            } catch (err) {
+            }).catch(err => {
                 showMessageBox('failedToCopy');
                 console.error('Failed to copy text: ', err);
-            }
-            document.body.removeChild(textArea); 
+            });
         });
 
         
