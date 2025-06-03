@@ -440,7 +440,7 @@
         const localStorageKey = 'scannedBarcodes';
         let currentScannedCode = null; 
 
-        
+        const cameraSelect = document.getElementById('camera-select');
         const startScanButton = document.getElementById('start-scan-button');
         const stopScanButton = document.getElementById('stop-scan-button');
         const clearListButton = document.getElementById('clear-list-button');
@@ -465,6 +465,7 @@
 
         
         function showMessageBox(messageKey, duration = 3000, params = {}) {
+            console.log(`Message: ${messageKey}`, params);
             let message = translations[currentLanguage][messageKey] || messageKey;
             for (const key in params) {
                 message = message.replace(`{${key}}`, params[key]);
