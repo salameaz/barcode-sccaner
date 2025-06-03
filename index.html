@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barcode Scanner with Price</title>
+    <title data-i18n="appTitle">Barcode Scanner</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/html5-qrcode"></script>
     <style>
@@ -56,6 +56,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap; /* Prevent text wrapping on smaller buttons */
         }
         .button-primary {
             background-color: #4f46e5;
@@ -166,17 +167,17 @@
             flex: 1;
             max-width: 150px;
         }
-        .price-input-group {
+        .input-group {
             margin-top: 15px;
             text-align: left;
         }
-        .price-input-group label {
+        .input-group label {
             display: block;
             margin-bottom: 5px;
             font-weight: 500;
             color: #334155;
         }
-        .price-input-group input {
+        .input-group input {
             width: 100%;
             padding: 8px 12px;
             border: 1px solid #cbd5e1;
@@ -184,16 +185,35 @@
             font-size: 1rem;
             box-sizing: border-box;
         }
+        .language-selector-container {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+        }
+        .language-selector-container select {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e1;
+            background-color: #f8fafc;
+        }
     </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
     <div class="container">
-        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Barcode Scanner</h1>
+        <div class="language-selector-container">
+            <select id="language-selector">
+                <option value="en">English</option>
+                <option value="ar">العربية</option>
+            </select>
+        </div>
+
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6" data-i18n="mainTitle">Barcode Scanner</h1>
 
         <div class="flex flex-col md:flex-row gap-6">
             <div class="flex-1 flex flex-col items-center">
                 <div class="mb-4 w-full max-w-xs">
-                    <label for="camera-select" class="block text-sm font-medium text-gray-700 mb-2">Select Camera:</label>
+                    <label for="camera-select" class="block text-sm font-medium text-gray-700 mb-2" data-i18n="selectCamera">Select Camera:</label>
                     <select id="camera-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md shadow-sm">
                         </select>
                 </div>
@@ -207,21 +227,21 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V4a2 2 0 00-2-2H4zm0 12a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H4zM14 2a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V4a2 2 0 00-2-2h-2zm0 12a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z" clip-rule="evenodd" />
                         </svg>
-                        Start Scanning
+                        <span data-i18n="startScanning">Start Scanning</span>
                     </button>
                     <button id="stop-scan-button" class="button button-secondary">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
                         </svg>
-                        Stop Scanning
+                        <span data-i18n="stopScanning">Stop Scanning</span>
                     </button>
                 </div>
             </div>
 
             <div class="flex-1">
-                <h2 class="text-xl font-semibold text-gray-700 mb-4 text-center">Scanned Codes</h2>
+                <h2 class="text-xl font-semibold text-gray-700 mb-4 text-center" data-i18n="scannedCodes">Scanned Codes</h2>
                 <div id="scanned-codes-list" class="list-container">
-                    <p class="no-items" id="no-items-message">No codes scanned yet.</p>
+                    <p class="no-items" id="no-items-message" data-i18n="noCodesScanned">No codes scanned yet.</p>
                 </div>
 
                 <div class="button-group mt-4">
@@ -229,21 +249,21 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm6 0a1 1 0 012 0v6a1 1 0 11-2 0V8z" clip-rule="evenodd" />
                         </svg>
-                        Clear List
+                        <span data-i18n="clearList">Clear List</span>
                     </button>
                     <button id="download-json-button" class="button button-secondary">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M.5 8a.5.5 0 0 1 .5.5V12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8.5a.5.5 0 0 1 1 0V12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V8.5A.5.5 0 0 1 .5 8z"/>
                             <path fill-rule="evenodd" d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V4.5a.5.5 0 0 0-1 0v5.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
                         </svg>
-                        Download JSON
+                        <span data-i18n="downloadJson">Download JSON</span>
                     </button>
                     <button id="copy-clipboard-button" class="button button-secondary">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5z"/>
                             <path d="M11 3a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5a2 2 0 012-2h2zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 11a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2a2 2 0 012-2h2z"/>
                         </svg>
-                        Copy to Clipboard
+                        <span data-i18n="copyToClipboard">Copy to Clipboard</span>
                     </button>
                 </div>
             </div>
@@ -257,37 +277,170 @@
             <button class="modal-close-button" onclick="hideModal('confirmation-modal')">&times;</button>
             <p id="modal-message" class="text-lg text-gray-800 mb-4"></p>
             <div class="modal-buttons">
-                <button id="modal-confirm-button" class="button button-primary">Confirm</button>
-                <button id="modal-cancel-button" class="button button-secondary">Cancel</button>
+                <button id="modal-confirm-button" class="button button-primary" data-i18n="confirm">Confirm</button>
+                <button id="modal-cancel-button" class="button button-secondary" data-i18n="cancel">Cancel</button>
             </div>
         </div>
     </div>
 
     <div id="price-input-modal" class="modal">
         <div class="modal-content">
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">Enter Price</h3>
-            <p class="text-gray-700 mb-4">Scanned Code: <strong id="scanned-code-display"></strong></p>
-            <div class="price-input-group">
-                <label for="price-input">Price (optional):</label>
+            <h3 class="text-xl font-semibold text-gray-800 mb-4" data-i18n="enterPriceTitle">Enter Price</h3>
+            <p class="text-gray-700 mb-4"><span data-i18n="scannedCodeLabel">Scanned Code:</span> <strong id="scanned-code-display"></strong></p>
+            <div class="input-group">
+                <label for="price-input" data-i18n="priceOptionalLabel">Price (optional):</label>
                 <input type="number" id="price-input" step="0.01" placeholder="e.g., 19.99">
             </div>
             <div class="modal-buttons mt-6">
-                <button id="save-price-button" class="button button-primary">Save Price</button>
-                <button id="skip-price-button" class="button button-secondary">Skip Price</button>
+                <button id="save-price-button" class="button button-primary" data-i18n="savePrice">Save Price</button>
+                <button id="skip-price-button" class="button button-secondary" data-i18n="skipPrice">Skip Price</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Initialize Html5Qrcode with the reader element ID
+        // Define translation strings
+        const translations = {
+            en: {
+                appTitle: "Barcode Scanner with Price",
+                mainTitle: "Barcode Scanner",
+                selectCamera: "Select Camera:",
+                startScanning: "Start Scanning",
+                stopScanning: "Stop Scanning",
+                scannedCodes: "Scanned Codes",
+                noCodesScanned: "No codes scanned yet.",
+                clearList: "Clear List",
+                downloadJson: "Download JSON",
+                copyToClipboard: "Copy to Clipboard",
+                confirm: "Confirm",
+                cancel: "Cancel",
+                enterPriceTitle: "Enter Price",
+                scannedCodeLabel: "Scanned Code:",
+                priceOptionalLabel: "Price (optional):",
+                savePrice: "Save Price",
+                skipPrice: "Skip Price",
+                // Messages
+                scanningStarted: "Scanning started.",
+                scanningStopped: "Scanning stopped.",
+                noCamerasFound: "No cameras found on this device.",
+                errorGettingCameras: "Error getting cameras:",
+                unableToStartScanning: "Unable to start scanning:",
+                pleaseSelectCamera: "Please select a camera.",
+                listAlreadyEmpty: "List is already empty.",
+                listCleared: "List cleared.",
+                noCodesToDownload: "No codes to download.",
+                jsonDownloaded: "JSON downloaded.",
+                codesCopied: "Codes copied to clipboard!",
+                failedToCopy: "Failed to copy codes. Please try manually.",
+                codeRemoved: "Code removed.",
+                codeAlreadyScanned: "Code already scanned:",
+                addedWithPrice: "Added: {code} with price ${price}",
+                addedNoPrice: "Added: {code} (no price)",
+                confirmClearList: "Are you sure you want to clear all scanned codes?",
+                confirmRemoveItem: "Are you sure you want to remove \"{code}\"?",
+                priceNA: "N/A",
+                scannedPrefix: "Scanned:",
+                pricePrefix: "Price:",
+                currencySymbol: "",
+                copiedEntryFormat: "Code: {code}, Price: {price}, Scanned: {timestamp}"
+            },
+            ar: {
+                appTitle: "تطبيق قارئ الباركود مع السعر",
+                mainTitle: "قارئ الباركود",
+                selectCamera: "اختر الكاميرا:",
+                startScanning: "بدء القراءة",
+                stopScanning: "إيقاف القراءة",
+                scannedCodes: "الرموز المقروءة",
+                noCodesScanned: "لم يتم قراءت أي رمز بعد.",
+                clearList: "مسح القائمة",
+                downloadJson: "تنزيل JSON",
+                copyToClipboard: "نسخ إلى الحافظة",
+                confirm: "تأكيد",
+                cancel: "إلغاء",
+                enterPriceTitle: "أدخل السعر",
+                scannedCodeLabel: "الرمز الممسوح:",
+                priceOptionalLabel: "السعر (اختياري):",
+                savePrice: "حفظ السعر",
+                skipPrice: "تخطي السعر",
+                // Messages
+                scanningStarted: "بدأت القراءة.",
+                scanningStopped: "تم إيقاف القراءة.",
+                noCamerasFound: "لم يتم العثور على كاميرات في هذا الجهاز.",
+                errorGettingCameras: "خطأ في الحصول على الكاميرات:",
+                unableToStartScanning: "تعذر بدء القراءة:",
+                pleaseSelectCamera: "الرجاء اختيار كاميرا.",
+                listAlreadyEmpty: "القائمة فارغة بالفعل.",
+                listCleared: "تم مسح القائمة.",
+                noCodesToDownload: "لا توجد رموز لتنزيلها.",
+                jsonDownloaded: "تم تنزيل JSON.",
+                codesCopied: "تم نسخ الرموز إلى الحافظة!",
+                failedToCopy: "فشل نسخ الرموز. يرجى المحاولة يدوياً.",
+                codeRemoved: "تمت إزالة الرمز.",
+                codeAlreadyScanned: "الرمز ممسوح بالفعل:",
+                addedWithPrice: "تمت الإضافة: {code} بسعر {price}$",
+                addedNoPrice: "تمت الإضافة: {code} (لا يوجد سعر)",
+                confirmClearList: "هل أنت متأكد أنك تريد مسح جميع الرموز الممسوحة؟",
+                confirmRemoveItem: "هل أنت متأكد أنك تريد إزالة \"{code}\"؟",
+                priceNA: "غير متوفر",
+                scannedPrefix: "مقروء:",
+                pricePrefix: "السعر:",
+                currencySymbol: "",
+                copiedEntryFormat: "الرمز: {code}, السعر: {price}, ممسوح: {timestamp}"
+            }
+        };
+
+        let currentLanguage = localStorage.getItem('appLanguage') || 'en'; // Default to English
+        const htmlElement = document.documentElement; 
+        const languageSelector = document.getElementById('language-selector');
+
+        
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('appLanguage', lang); 
+
+            
+            if (lang === 'ar') {
+                htmlElement.setAttribute('dir', 'rtl');
+                htmlElement.lang = 'ar';
+            } else {
+                htmlElement.setAttribute('dir', 'ltr');
+                htmlElement.lang = 'en';
+            }
+
+            
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    if (element.tagName === 'INPUT' && element.hasAttribute('placeholder')) {
+                        element.setAttribute('placeholder', translations[lang][key]);
+                    } else if (element.tagName === 'TITLE') {
+                        document.title = translations[lang][key];
+                    }
+                     else {
+                        element.textContent = translations[lang][key];
+                    }
+                }
+            });
+
+            
+            if (lang === 'ar') {
+                priceInput.placeholder = "مثال: 19.99";
+            } else {
+                priceInput.placeholder = "e.g., 19.99";
+            }
+
+            
+            renderScannedCodes();
+        }
+
+        
         const html5QrCode = new Html5Qrcode("reader");
-        // Array to store scanned codes as objects { code: string, price: string, timestamp: string }
+        
         let scannedCodes = [];
         const localStorageKey = 'scannedBarcodes';
-        let currentScannedCode = null; // To hold the code while price is being entered
+        let currentScannedCode = null; 
 
-        // Get references to DOM elements
-        const cameraSelect = document.getElementById('camera-select');
+        
         const startScanButton = document.getElementById('start-scan-button');
         const stopScanButton = document.getElementById('stop-scan-button');
         const clearListButton = document.getElementById('clear-list-button');
@@ -297,21 +450,25 @@
         const noItemsMessage = document.getElementById('no-items-message');
         const messageBox = document.getElementById('message-box');
 
-        // Confirmation Modal elements
+        
         const confirmationModal = document.getElementById('confirmation-modal');
         const modalMessage = document.getElementById('modal-message');
         const modalConfirmButton = document.getElementById('modal-confirm-button');
         const modalCancelButton = document.getElementById('modal-cancel-button');
 
-        // Price Input Modal elements
+        
         const priceInputModal = document.getElementById('price-input-modal');
         const scannedCodeDisplay = document.getElementById('scanned-code-display');
         const priceInput = document.getElementById('price-input');
         const savePriceButton = document.getElementById('save-price-button');
         const skipPriceButton = document.getElementById('skip-price-button');
 
-        // Function to show a message box for temporary notifications
-        function showMessageBox(message, duration = 3000) {
+        
+        function showMessageBox(messageKey, duration = 3000, params = {}) {
+            let message = translations[currentLanguage][messageKey] || messageKey;
+            for (const key in params) {
+                message = message.replace(`{${key}}`, params[key]);
+            }
             messageBox.textContent = message;
             messageBox.classList.add('show');
             setTimeout(() => {
@@ -319,68 +476,73 @@
             }, duration);
         }
 
-        // Function to show a custom confirmation modal
-        function showModal(id, message, onConfirm) {
+        
+        function showModal(id, messageKey, onConfirm, params = {}) {
             const modal = document.getElementById(id);
+            let message = translations[currentLanguage][messageKey] || messageKey;
+            for (const key in params) {
+                message = message.replace(`{${key}}`, params[key]);
+            }
             modalMessage.textContent = message;
             modal.classList.add('show');
 
-            // Clear previous event listeners to prevent multiple calls
+            
             modalConfirmButton.onclick = null;
             modalCancelButton.onclick = null;
 
-            // Set new event listeners for confirm and cancel actions
+            
             modalConfirmButton.onclick = () => {
-                onConfirm(); // Execute the provided confirmation callback
-                hideModal(id); // Hide the modal after confirmation
+                onConfirm(); 
+                hideModal(id); 
             };
             modalCancelButton.onclick = () => {
-                hideModal(id); // Hide the modal on cancellation
+                hideModal(id); 
             };
         }
 
-        // Function to hide a custom modal
+        
         function hideModal(id) {
             document.getElementById(id).classList.remove('show');
         }
 
-        // Load scanned codes from localStorage when the app starts
+        
         function loadCodes() {
             const storedCodes = localStorage.getItem(localStorageKey);
             if (storedCodes) {
-                // Parse the JSON string back into an array
+                
                 scannedCodes = JSON.parse(storedCodes);
             }
-            renderScannedCodes(); // Update the displayed list
+            renderScannedCodes(); 
         }
 
-        // Save current scanned codes to localStorage
+        
         function saveCodes() {
-            // Convert the array to a JSON string before saving
+            
             localStorage.setItem(localStorageKey, JSON.stringify(scannedCodes));
-            renderScannedCodes(); // Update the displayed list after saving
+            renderScannedCodes(); 
         }
 
-        // Render (display) the scanned codes in the list area
+        
         function renderScannedCodes() {
-            scannedCodesListDiv.innerHTML = ''; // Clear current list display
+            scannedCodesListDiv.innerHTML = ''; 
             if (scannedCodes.length === 0) {
-                // Show "No items" message if the list is empty
+                
                 noItemsMessage.style.display = 'block';
+                noItemsMessage.textContent = translations[currentLanguage].noCodesScanned;
                 scannedCodesListDiv.appendChild(noItemsMessage);
             } else {
-                // Hide "No items" message and populate the list
+                
                 noItemsMessage.style.display = 'none';
                 scannedCodes.forEach((item, index) => {
                     const listItem = document.createElement('div');
                     listItem.className = 'list-item';
-                    const priceText = item.price ? ` (${parseFloat(item.price).toFixed(2)})` : '';
+                    const priceText = item.price ? ` (${translations[currentLanguage].currencySymbol}${parseFloat(item.price).toFixed(2)})` : '';
                     const timestampText = item.timestamp ? ` - ${item.timestamp}` : '';
-                    // Add the scanned code, price, timestamp and a delete button for each item
+                    
                     listItem.innerHTML = `
                         <span>${item.code}${priceText}${timestampText}</span>
                         <button class="text-red-500 hover:text-red-700 ml-4" data-index="${index}">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block" viewBox="0 0 20 20" fill="currentColor">
+                            <svg xmlns="http:
                                 <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm6 0a1 1 0 012 0v6a1 1 0 11-2 0V8z" clip-rule="evenodd" />
                             </svg>
                         </button>
@@ -390,212 +552,221 @@
             }
         }
 
-        // Callback function for successful barcode scans
+        
         const onScanSuccess = (decodedText, decodedResult) => {
-            // Check if the code (decodedText) already exists in the list
-            // We only check the 'code' property of the objects in scannedCodes
+            
+            
             const exists = scannedCodes.some(item => item.code === decodedText);
 
             if (!exists) {
-                currentScannedCode = decodedText; // Store the scanned code temporarily
-                scannedCodeDisplay.textContent = decodedText; // Display in the price modal
-                priceInput.value = ''; // Clear previous price input
-                priceInputModal.classList.add('show'); // Show the price input modal
-                // Stop scanning temporarily until price is entered or skipped
+                currentScannedCode = decodedText; 
+                scannedCodeDisplay.textContent = decodedText; 
+                priceInput.value = ''; 
+                priceInputModal.classList.add('show'); 
+                
                 html5QrCode.pause();
             } else {
-                showMessageBox(`Code already scanned: ${decodedText}`);
+                showMessageBox('codeAlreadyScanned', 3000, { code: decodedText });
             }
         };
 
-        // Callback function for barcode scan errors (can be ignored for minor errors)
+        
         const onScanError = (errorMessage) => {
-            // console.warn(`QR Code scanning error: ${errorMessage}`);
+            
         };
 
-        // Populate the camera dropdown with available cameras
-        // getCameras is a static method of the Html5Qrcode class.
+        
+        
         Html5Qrcode.getCameras().then(cameras => {
             if (cameras.length > 0) {
-                // Add each camera as an option in the select dropdown
+                
                 cameras.forEach(camera => {
                     const option = document.createElement('option');
                     option.value = camera.id;
                     option.textContent = camera.label;
                     cameraSelect.appendChild(option);
                 });
-                startScanButton.disabled = false; // Enable start button if cameras are found
+                startScanButton.disabled = false; 
             } else {
-                showMessageBox("No cameras found on this device.");
-                startScanButton.disabled = true; // Disable start button if no cameras
+                showMessageBox('noCamerasFound');
+                startScanButton.disabled = true; 
             }
         }).catch(err => {
-            showMessageBox(`Error getting cameras: ${err.message}`);
-            startScanButton.disabled = true; // Disable start button on error
+            showMessageBox('errorGettingCameras', 3000, { error: err.message });
+            startScanButton.disabled = true; 
         });
 
-        // Event listener for the "Start Scanning" button
+        
         startScanButton.addEventListener('click', () => {
             const selectedCameraId = cameraSelect.value;
             if (selectedCameraId) {
-                // Start the QR code scanner with the selected camera
+                
                 html5QrCode.start(
                     selectedCameraId,
                     {
-                        fps: 10, // Frames per second
-                        qrbox: (width, height) => { // Define the scanning box size
+                        fps: 10, 
+                        qrbox: (width, height) => { 
                             const minDimension = Math.min(width, height);
                             return { width: minDimension * 0.8, height: minDimension * 0.8 };
                         },
-                        aspectRatio: 1.777778 // 16:9 aspect ratio for the video feed
+                        aspectRatio: 1.777778 
                     },
-                    onScanSuccess, // Callback for successful scan
-                    onScanError // Callback for scan errors
+                    onScanSuccess, 
+                    onScanError 
                 ).then(() => {
-                    showMessageBox("Scanning started.");
-                    startScanButton.disabled = true; // Disable start button
-                    stopScanButton.disabled = false; // Enable stop button
-                    cameraSelect.disabled = true; // Disable camera selection during scan
+                    showMessageBox('scanningStarted');
+                    startScanButton.disabled = true; 
+                    stopScanButton.disabled = false; 
+                    cameraSelect.disabled = true; 
                 }).catch(err => {
-                    showMessageBox(`Unable to start scanning: ${err.message}`);
+                    showMessageBox('unableToStartScanning', 3000, { error: err.message });
                 });
             } else {
-                showMessageBox("Please select a camera.");
+                showMessageBox('pleaseSelectCamera');
             }
         });
 
-        // Event listener for the "Stop Scanning" button
+        
         stopScanButton.addEventListener('click', () => {
             html5QrCode.stop().then(() => {
-                showMessageBox("Scanning stopped.");
-                startScanButton.disabled = false; // Enable start button
-                stopScanButton.disabled = true; // Disable stop button
-                cameraSelect.disabled = false; // Enable camera selection
+                showMessageBox('scanningStopped');
+                startScanButton.disabled = false; 
+                stopScanButton.disabled = true; 
+                cameraSelect.disabled = false; 
             }).catch(err => {
-                showMessageBox(`Error stopping scanning: ${err.message}`);
+                showMessageBox('errorStoppingScanning', 3000, { error: err.message });
             });
         });
 
-        // Event listener for the "Save Price" button in the price input modal
+        
         savePriceButton.addEventListener('click', () => {
             const price = priceInput.value.trim();
             if (currentScannedCode) {
                 scannedCodes.push({
                     code: currentScannedCode,
-                    price: price,
+                    price: price || null, 
                     timestamp: new Date().toLocaleString()
                 });
                 saveCodes();
-                showMessageBox(`Added: ${currentScannedCode} with price ${price || 'N/A'}`);
+                showMessageBox('addedWithPrice', 3000, { code: currentScannedCode, price: price || translations[currentLanguage].priceNA });
                 hideModal('price-input-modal');
-                html5QrCode.resume(); // Resume scanning
-                currentScannedCode = null; // Clear temporary code
+                html5QrCode.resume(); 
+                currentScannedCode = null; 
             }
         });
 
-        // Event listener for the "Skip Price" button in the price input modal
+        
         skipPriceButton.addEventListener('click', () => {
             if (currentScannedCode) {
                 scannedCodes.push({
                     code: currentScannedCode,
-                    price: null, // Store price as null if skipped
+                    price: null, 
                     timestamp: new Date().toLocaleString()
                 });
                 saveCodes();
-                showMessageBox(`Added: ${currentScannedCode} (no price)`);
+                showMessageBox('addedNoPrice', 3000, { code: currentScannedCode });
                 hideModal('price-input-modal');
-                html5QrCode.resume(); // Resume scanning
-                currentScannedCode = null; // Clear temporary code
+                html5QrCode.resume(); 
+                currentScannedCode = null; 
             }
         });
 
-        // Event listener for the "Clear List" button
+        
         clearListButton.addEventListener('click', () => {
             if (scannedCodes.length === 0) {
-                showMessageBox("List is already empty.");
+                showMessageBox('listAlreadyEmpty');
                 return;
             }
-            // Show confirmation modal before clearing the list
-            showModal('confirmation-modal', 'Are you sure you want to clear all scanned codes?', () => {
-                scannedCodes = []; // Clear the array
-                saveCodes(); // Save the empty list to localStorage
-                showMessageBox("List cleared."); // Notify the user
+            
+            showModal('confirmation-modal', 'confirmClearList', () => {
+                scannedCodes = []; 
+                saveCodes(); 
+                showMessageBox('listCleared'); 
             });
         });
 
-        // Event listener for the "Download JSON" button
+        
         downloadJsonButton.addEventListener('click', () => {
             if (scannedCodes.length === 0) {
-                showMessageBox("No codes to download.");
+                showMessageBox('noCodesToDownload');
                 return;
             }
-            // Convert the scanned codes array to a JSON string with pretty printing
+            
             const dataStr = JSON.stringify(scannedCodes, null, 2);
-            // Create a Blob object with the JSON data
+            
             const blob = new Blob([dataStr], { type: "application/json" });
-            // Create a URL for the Blob
+            
             const url = URL.createObjectURL(blob);
-            // Create a temporary anchor element for downloading
+            
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'scanned_barcodes.json'; // Set the download filename
-            document.body.appendChild(a); // Append to body (required for Firefox)
-            a.click(); // Programmatically click the link to trigger download
-            document.body.removeChild(a); // Remove the temporary link
-            URL.revokeObjectURL(url); // Clean up the Blob URL
-            showMessageBox("JSON downloaded."); // Notify the user
+            a.download = 'scanned_barcodes.json'; 
+            document.body.appendChild(a); 
+            a.click(); 
+            document.body.removeChild(a); 
+            URL.revokeObjectURL(url); 
+            showMessageBox('jsonDownloaded'); 
         });
 
-        // Event listener for the "Copy to Clipboard" button
+        
         copyClipboardButton.addEventListener('click', () => {
             if (scannedCodes.length === 0) {
-                showMessageBox("No codes to copy.");
+                showMessageBox('noCodesToCopy');
                 return;
             }
-            // Format each item as "Code: [code], Price: [price], Timestamp: [timestamp]"
+            
             const textToCopy = scannedCodes.map(item => {
-                const pricePart = item.price ? `, Price: ${parseFloat(item.price).toFixed(2)}` : ', Price: N/A';
-                const timestampPart = item.timestamp ? `, Scanned: ${item.timestamp}` : '';
-                return `Code: ${item.code}${pricePart}${timestampPart}`;
+                const priceValue = item.price ? `${translations[currentLanguage].currencySymbol}${parseFloat(item.price).toFixed(2)}` : translations[currentLanguage].priceNA;
+                return translations[currentLanguage].copiedEntryFormat
+                    .replace('{code}', item.code)
+                    .replace('{price}', priceValue)
+                    .replace('{timestamp}', item.timestamp || '');
             }).join('\n');
 
-            // Create a temporary textarea element to hold the text
+            
             const textArea = document.createElement("textarea");
             textArea.value = textToCopy;
             document.body.appendChild(textArea);
-            textArea.select(); // Select the text in the textarea
+            textArea.select(); 
             try {
-                // Execute the copy command (deprecated but widely supported)
+                
                 document.execCommand('copy');
-                showMessageBox("Codes copied to clipboard!");
+                showMessageBox('codesCopied');
             } catch (err) {
-                showMessageBox("Failed to copy codes. Please try manually.");
+                showMessageBox('failedToCopy');
                 console.error('Failed to copy text: ', err);
             }
-            document.body.removeChild(textArea); // Remove the temporary textarea
+            document.body.removeChild(textArea); 
         });
 
-        // Event listener for removing individual items from the list
+        
         scannedCodesListDiv.addEventListener('click', (event) => {
-            // Check if a button within a list item was clicked
+            
             if (event.target.closest('button')) {
                 const button = event.target.closest('button');
-                // Get the index of the item to be removed from the data-index attribute
+                
                 const index = parseInt(button.dataset.index);
                 if (!isNaN(index)) {
-                    // Show confirmation modal before removing an individual item
-                    showModal('confirmation-modal', `Are you sure you want to remove "${scannedCodes[index].code}"?`, () => {
-                        scannedCodes.splice(index, 1); // Remove the item from the array
-                        saveCodes(); // Save the updated list
-                        showMessageBox("Code removed."); // Notify the user
-                    });
+                    
+                    showModal('confirmation-modal', 'confirmRemoveItem', () => {
+                        scannedCodes.splice(index, 1); 
+                        saveCodes(); 
+                        showMessageBox('codeRemoved'); 
+                    }, { code: scannedCodes[index].code });
                 }
             }
         });
 
-        // Initial setup when the page loads
-        loadCodes(); // Load any previously scanned codes
-        stopScanButton.disabled = true; // Initially disable the stop button as scanning hasn't started
+        
+        languageSelector.addEventListener('change', (event) => {
+            setLanguage(event.target.value);
+        });
+
+        
+        languageSelector.value = currentLanguage;
+        setLanguage(currentLanguage);
+        loadCodes();
+        stopScanButton.disabled = true;
     </script>
 </body>
 </html>
