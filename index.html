@@ -717,11 +717,9 @@
             }
             
             const textToCopy = scannedCodes.map(item => {
-                const priceValue = item.price ? `${translations[currentLanguage].currencySymbol}${parseFloat(item.price).toFixed(2)}` : translations[currentLanguage].priceNA;
-                return translations[currentLanguage].copiedEntryFormat
-                    .replace('{code}', item.code)
-                    .replace('{price}', priceValue)
-                    .replace('{timestamp}', item.timestamp || '');
+                const pricePart = item.price ? `, Price: ${parseFloat(item.price).toFixed(2)}` : ', Price: N/A';
+                const timestampPart = item.timestamp ? `, Scanned: ${item.timestamp}` : '';
+                return `Code: ${item.code}${pricePart}${timestampPart}`;
             }).join('\n');
 
             
