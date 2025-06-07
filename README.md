@@ -7,12 +7,13 @@ This is a simple, client-side web application for scanning barcodes using your d
 This app is ideal for personal use or small-scale inventory management where a simple, free, and offline-capable barcode scanning solution is needed.
 
 -**Personal Inventory:** Quickly scan items around your home to create a digital list.
+
 -**Small Business Stock Check:** Keep track of incoming or outgoing products without complex software.
 
 
 ## Features
 
-- Scan barcodes using `html5-qrcode`.
+- Scan barcodes using [`html5-qrcode`](https://github.com/mebjas/html5-qrcode).
 - Select from available cameras.
 - Store scanned codes in `localStorage`.
 - Download scanned codes as JSON.
